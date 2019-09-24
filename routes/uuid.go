@@ -13,6 +13,6 @@ func GenerateUUID(c *gin.Context) {
 		fmt.Println(err)
 	}
 
-	c.Redirect(http.StatusFound, "/download" + u.String())
+	c.Redirect(http.StatusFound, "/download/" + u.String())
 	c.Abort()
 }

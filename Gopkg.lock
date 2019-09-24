@@ -2,18 +2,6 @@
 
 
 [[projects]]
-  digest = "1:7b94d37d65c0445053c6f3e73090e3966c1c29127035492c349e14f25c440359"
-  name = "github.com/boombuler/barcode"
-  packages = [
-    ".",
-    "qr",
-    "utils",
-  ]
-  pruneopts = "UT"
-  revision = "3cfea5ab600ae37946be2b763b8ec2c1cf2d272d"
-  version = "v1.0.0"
-
-[[projects]]
   digest = "1:3ee1d175a75b911a659fbd860060874c4f503e793c5870d13e5a0ede529a63cf"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -83,6 +71,18 @@
   version = "1.0.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:7439e1e9a33b9d7d3eb7048fe50851a47186fd82d0fc6c481f749fb2c9901f61"
+  name = "github.com/skip2/go-qrcode"
+  packages = [
+    ".",
+    "bitset",
+    "reedsolomon",
+  ]
+  pruneopts = "UT"
+  revision = "dc11ecdae0a9889dc81a343585516404e8dc6ead"
+
+[[projects]]
   digest = "1:5a1cf4e370bc86137b58da2ae065e76526d32b11f62a7665f36dbd5f41fa95ff"
   name = "github.com/ugorji/go"
   packages = ["codec"]
@@ -118,9 +118,9 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/boombuler/barcode/qr",
     "github.com/gin-gonic/gin",
     "github.com/google/uuid",
+    "github.com/skip2/go-qrcode",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

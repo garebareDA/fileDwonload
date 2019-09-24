@@ -3,7 +3,8 @@ package routes
 import(
 	"github.com/google/uuid"
 	"github.com/gin-gonic/gin"
-	"github.com/boombuler/barcode/qr"
+	"github.com/skip2/go-qrcode"
+	"encoding/base64"
 	"fmt"
 )
 
@@ -15,8 +16,10 @@ func Download(c *gin.Context) {
 		fmt.Println(err)
 	}
 
-	qrCode, _ := qr.Encode("http://localhost:8000/upload/" + u.String(), qr.L, qr.Auto)
+	var png []byte
+	png, err = qrcode.Encode("http://localhost:8000/upload/" + u.String(), qrcode.Medium, 256)
+	encoded := base64.StdEncoding.EncodeToString(png)
 
-	fmt.Println(qrCode)
 	fmt.Println(uuidPram)
+	fmt.Println(encoded)
 }
