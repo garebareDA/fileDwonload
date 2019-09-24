@@ -5,11 +5,13 @@ import(
 	"github.com/gin-gonic/gin"
 	"github.com/skip2/go-qrcode"
 	"encoding/base64"
+	"net/http"
 	"fmt"
 )
 
 func Download(c *gin.Context) {
 	uuidPram := c.Param("uuid")
+	fmt.Println(uuidPram)
 
 	u, err := uuid.NewRandom()
 	if err != nil{
@@ -20,6 +22,9 @@ func Download(c *gin.Context) {
 	png, err = qrcode.Encode("http://localhost:8000/upload/" + u.String(), qrcode.Medium, 256)
 	encoded := base64.StdEncoding.EncodeToString(png)
 
-	fmt.Println(uuidPram)
+	c.HTML(http.StatusOK, "download.html",gin.H{
+		"qr":encoded,
+	})
+
 	fmt.Println(encoded)
 }
