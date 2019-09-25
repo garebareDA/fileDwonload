@@ -6,6 +6,7 @@ import(
 	"github.com/skip2/go-qrcode"
 	"encoding/base64"
 	"net/http"
+	"os"
 	"fmt"
 )
 
@@ -24,7 +25,16 @@ func Download(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "download.html",gin.H{
 		"qr":encoded,
+		"uuid":u,
 	})
+}
 
-	fmt.Println(encoded)
+func IsDownload(c *gin.Context) {
+	uuid := c.Query("uuid")
+	_, err := os.Stat("/zip/" + uuid + ".zip")
+	if err == nil {
+		c.String(http.StatusOK,"true")
+	}else{
+		c.String(http.StatusOK,"false")
+	}
 }
