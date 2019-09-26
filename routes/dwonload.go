@@ -31,10 +31,12 @@ func Download(c *gin.Context) {
 
 func IsDownload(c *gin.Context) {
 	uuid := c.Query("uuid")
-	_, err := os.Stat("/zip/" + uuid + ".zip")
+	_, err := os.Stat("./zip/" + uuid + ".zip")
+
 	if err == nil {
-		c.String(http.StatusOK,"true")
+		fmt.Println("true")
+		c.String(201,"true")
 	}else{
-		c.String(http.StatusOK,"false")
+		c.String(201,"false")
 	}
 }

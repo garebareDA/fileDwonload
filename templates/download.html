@@ -2,10 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="uuid" content="{{.uuid}}">
   <title>Document</title>
 </head>
 <body>
   <img src="data:image/png;base64,{{.qr}}">
-  <a href="/upload/{{.uuid}}">アップロード画面</a>
+  <div>
+    <a href="/upload/{{.uuid}}">アップロード画面</a>
+  </div>
+  <button id="download">ダウンロードリンクの表示</button>
+  <div id="link"></div>
+  <script src="/src/bundle.js"></script>
 </body>
 </html>

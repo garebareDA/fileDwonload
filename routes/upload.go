@@ -19,16 +19,18 @@ func Upload(c *gin.Context) {
 
 func UploadPost(c *gin.Context) {
 	uuid := c.Param("uuid")
+	path := "./zip/" + uuid + ".zip"
 
 	form, err := c.MultipartForm()
 	if err != nil {
 		panic(err)
 	}
 
-	dest, err := os.Create("./zip/" + uuid + ".zip")
+	dest, err := os.Create(path)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer dest.Close()
 
 	zipWriter := zip.NewWriter(dest)
 	defer zipWriter.Close()
