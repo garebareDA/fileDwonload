@@ -3,7 +3,6 @@ package main
 import(
 	"github.com/gin-gonic/gin"
 	"fileDownload/routes"
-	"net/http"
 )
 
 func main() {
@@ -15,11 +14,11 @@ func main() {
 	router.GET("/upload/:uuid", routes.Upload)
 	router.GET("/IsDownload", routes.IsDownload)
 	router.GET("/remove", routes.Remove)
+	router.GET("/startDownload", routes.StartDwonload)
 
 	router.POST("/", routes.GenerateUUID)
 	router.POST("/upload/:uuid", routes.UploadPost)
 
-	router.StaticFS("/zip", http.Dir("./zip"))
 	router.Static("/src", "./src")
 
 	router.Run(":8000")

@@ -8,7 +8,7 @@ console.log(uuid);
 
 download.addEventListener('click', () => {
   const url:string = '/IsDownload?uuid=' + uuid;
-  const downloadURL:string = '/zip/' + uuid + '.zip';
+  const DownloadFileURL:string = '/startDownload?uuid=' + uuid;
   const removeFileURL:string = '/remove?uuid=' + uuid;
 
   axios.get(
@@ -16,12 +16,7 @@ download.addEventListener('click', () => {
   ).then(response => {
 
     if (response.data === true) {
-      const link:HTMLElement = document.getElementById('link');
-      const a:HTMLAnchorElement = document.createElement('a')
-      a.href = downloadURL;
-      a.innerText = 'ダウンロード';
-      link.appendChild(a);
-      a.addEventListener('click', () =>{get(removeFileURL)})
+      get(DownloadFileURL, removeFileURL)
     }else{
       alert('アップロードされたファイルが見つかりません');
     }
@@ -33,12 +28,20 @@ download.addEventListener('click', () => {
 
 });
 
-function get(url:string) {
-  axios.get(
-    url
-  ).then(response => {
-    console.log(response)
-  }).catch(err => {
-    console.log(err)
-  });
+function get(url:string, remove:string) {
+  const {data} :any = axios.get(
+    url,
+    { responseType: 'arraybuffer',
+      headers: { Accept: 'application/zip' },
+    }
+  )
+
+  const blob = new Blob([data], { type: 'application/zip' })
+
+  const uri = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.download = uuid + '.zip'
+  link.href = uri
+  link.click()
+  axios.get(remove)
 }

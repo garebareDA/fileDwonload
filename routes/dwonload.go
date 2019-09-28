@@ -40,3 +40,14 @@ func IsDownload(c *gin.Context) {
 		c.String(201,"false")
 	}
 }
+
+func StartDwonload(c *gin.Context) {
+	uuid := c.Query("uuid")
+	path := "./zip/" + uuid + ".zip"
+
+	c.Header("Content-Description", "File Transfer")
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", "attachment; filename=" + uuid + ".zip" )
+	c.Header("Content-Type", "application/octet-stream")
+	c.File(path)
+}

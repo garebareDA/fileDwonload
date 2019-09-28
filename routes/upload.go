@@ -4,9 +4,10 @@ import(
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
-	"archive/zip"
-	"io"
 	"os"
+	"os/exec"
+	"io"
+	"time"
 	"fmt"
 )
 
@@ -26,15 +27,6 @@ func UploadPost(c *gin.Context) {
 		panic(err)
 	}
 
-	dest, err := os.Create(path)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer dest.Close()
-
-	zipWriter := zip.NewWriter(dest)
-	defer zipWriter.Close()
-
 	os.Mkdir(uuid, 0755)
 
 	files := form.File["files"]
@@ -48,35 +40,28 @@ func UploadPost(c *gin.Context) {
 			fmt.Println(err)
 			return
 		}
-
-		err = addToZip(path, zipWriter)
-		if err != nil {
-			fmt.Println(err)
-		}
 	}
+
+	cmd := exec.Command("go", "run", "./child/zip.go")
+	stdin, _ := cmd.StdinPipe()
+	io.WriteString(stdin, uuid)
+	stdin.Close()
+
+	cmd.Run()
+	cmd.Wait()
+	cmd.Process.Kill()
 
 	err = os.RemoveAll("./" + uuid)
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	go RemoveHour(path)
+
+	c.String(201, "アップロードが完了しました")
 }
 
-func addToZip(filename string, zipWriter *zip.Writer) error {
-	src, err := os.Open(filename)
-	if err != nil {
-		return err
-	}
-	defer src.Close()
-
-	writer, err := zipWriter.Create(filename)
-	if err != nil {
-		return err
-	}
-
-	_, err = io.Copy(writer, src)
-	if err != nil {
-		return err
-	}
-
-	return nil
+func RemoveHour(path string) {
+	time.Sleep(1 * time.Hour)
+	os.Remove(path)
 }
