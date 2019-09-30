@@ -29,19 +29,20 @@ download.addEventListener('click', () => {
 });
 
 function get(url:string, remove:string) {
-  const {data} :any = axios.get(
+  axios.get(
     url,
     { responseType: 'arraybuffer',
       headers: { Accept: 'application/zip' },
     }
-  )
-
-  const blob = new Blob([data], { type: 'application/zip' })
-
-  const uri = URL.createObjectURL(blob)
-  const link = document.createElement('a')
+  ).then((res) => {
+  const data:any = res.data;
+  const blob:Blob = new Blob([data], { type: 'application/zip' })
+  const uri:string = URL.createObjectURL(blob)
+  const link:HTMLAnchorElement = document.createElement('a')
   link.download = uuid + '.zip'
   link.href = uri
   link.click()
   axios.get(remove)
+  });
+
 }

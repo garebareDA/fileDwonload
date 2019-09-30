@@ -45,8 +45,8 @@ func StartDwonload(c *gin.Context) {
 	uuid := c.Query("uuid")
 	path := "./zip/" + uuid + ".zip"
 
-	c.Header("Content-Description", "File Transfer")
-	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Access-Control-Allow-Origin", "http://localhost:8000")
+	c.Header("Access-Control-Expose-Headers", "Content-Disposition")
 	c.Header("Content-Disposition", "attachment; filename=" + uuid + ".zip" )
 	c.Header("Content-Type", "application/octet-stream")
 	c.File(path)
