@@ -6,7 +6,7 @@
   "author": "garebareDA <garedaiki@outlook.jp>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "ts-loader": "^6.1.2",
     "typescript": "^3.6.3",
     "webpack": "^4.41.0",
